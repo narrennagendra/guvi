@@ -34,8 +34,10 @@ function handlePostRequest($name, $contact, $dob, $email){
     return $res;
 }
 
-if (isset($_SERVER['AUTH_TOKEN']) && isset($_SERVER['c'])) {
-    $email = $redis->get($token);
+var_dump($_SERVER);
+
+if (isset($_SERVER['AUTH_TOKEN'])) {
+    $email = $redis->get($_SERVER['AUTH_TOKEN']);
     $json_data = array('status' => 404, 'error' => "user not found");
     if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         $json_data = handleGetRequest($email);

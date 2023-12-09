@@ -1,13 +1,15 @@
 $(document).ready(function(){
     var token = localStorage.getItem("token");
+    console.log(token, "foo");
 
     $.ajax({
-        url: "your_api_url",
+        url: "http://localhost/guvi-project/php/profile.php",
         type: "GET",
         headers: {
             "AUTH_TOKEN": token
         },
         success: function(response){
+            console.log(response);
             response.name ? $("#name").val(response.name): "";
             response.email ? $("#email").val(response.email): "";
             response.cnum ? $("#cnum").val(response.cnum): "";

@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $redis->connect('127.0.0.1', 6379);
             $redis->setex('token_' . $token, 3600, $user['email']);
 
-            echo json_encode(array('status' => 200, 'token' => $token, 'email' => $user['email']));
+            echo json_encode(array('status' => 200, 'token' => 'token_'.$token, 'email' => $user['email']));
         } else {
             echo json_encode(array('status' => 404, 'message' => 'Invalid password'));
         }

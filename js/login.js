@@ -7,9 +7,9 @@ $(document).ready(function(){
         $.ajax({
             url: "http://localhost/guvi-project/php/login.php",
             type: "POST",
+            contentType: "application/json",
             data: JSON.stringify({email: email, password: password}),
             success: function(response){
-                console.log(response);
                 var token = response.token;
                 localStorage.setItem("token", token);
                 window.location.href = "http://localhost/guvi-project/index.html";
