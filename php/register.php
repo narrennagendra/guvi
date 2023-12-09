@@ -13,6 +13,7 @@ if ($conn->connect_error) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $json_data = file_get_contents('php://input');
     $requestData = json_decode($json_data, true);
+    var_dump($requestData);
 
     $name = $requestData['name'];
     $email = $requestData['email'];
@@ -31,8 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        $stmt = $conn->prepare("INSERT INTO guvi.users (name, email, password) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $name, $email, $hashed_password);
+        $stmt = $conn->prepare("INSERT INTO guvi.users (email, password) VALUES (?, ?)");
+        $stmt->bind_param("ss", $email, $hashed_password);
 
         $profileStmt = $conn->prepare("INSERT INTO guvi.profile (name, email) VALUES (?, ?)");
         $profileStmt->bind_param("ss", $name, $email);
@@ -40,7 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header('Content-Type: application/json');
         $res = array();
 
-        if ($stmt->execute() and profileStmt->execute()) {
+        if ($stmt->execute() and $profileStmt->execute()) {
             $res['status'] = 201;
             $res['message'] = "User created";
         } else {
